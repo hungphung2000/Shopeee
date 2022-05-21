@@ -1,23 +1,20 @@
 package com.example.shopeee.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -32,10 +29,7 @@ import com.example.shopeee.models.NewProductModel;
 import com.example.shopeee.models.PopularProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -62,25 +56,34 @@ public class HomeFragment extends Fragment {
     // banner
     ArrayList<SlideModel> slideModels;
     ImageSlider imageSlider;
+
     public HomeFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        try {
-            super.onAttach(context);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         // ánh xạ
+        init(view);
+        // khởi tạo progress
+        showProgressDialog();
+        // hiển thị quảng cáo
+        showSlideBanner();
+        //hiển thị các thể loại
+        showCategory();
+        // hiển thị danh sách sản phẩm mới
+        showNewProducts();
+        // hiển thị sản phẩm phổ biến
+        showPopularProducts();
+        // chuyển MainActivity sang ShowAllActivity
+        showAllProduct();
+
+        return view;
+    }
+
+    public void init(View view) {
         imageSlider = view.findViewById(R.id.image_slider);
         slideModels = new ArrayList<>();
 
@@ -93,108 +96,12 @@ public class HomeFragment extends Fragment {
         newProductShowAll = view.findViewById(R.id.newProducts_see_all);
         popularShowAll = view.findViewById(R.id.popular_see_all);
 
-
-
         linearLayout.setVisibility(View.GONE);
 
         db = FirebaseFirestore.getInstance();
-
-        // khởi tạo progress
-        showProgressDialog();
-
-        // quảng cáo slidemodel
-        showSlideBanner();
-        //Category
-        showCategory();
-        try {
-            showNewProducts();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //showNewProducts();
-        showPopularProducts();
-
-        showAll();
-
-
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-//        categoryModels = new ArrayList<>();
-//        categoryAdapter = new CategoryAdapter(getContext(), categoryModels);
-//        recyclerView.setAdapter(categoryAdapter);
-//
-//
-//        db.collection("Category")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                CategoryModel categoryModel = document.toObject(CategoryModel.class);
-//                                categoryModels.add(categoryModel);
-//                                linearLayout.setVisibility(View.VISIBLE);
-//                                progressDialog.dismiss();
-//
-//                            }
-//                            categoryAdapter.notifyDataSetChanged();
-//                        } else {
-//
-//                        }
-//                    }
-//                });
-
-        //new product
-
-//        newProductRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-//        newProductModels = new ArrayList<>();
-//        newProductAdapter = new NewProductAdapter(getContext(), newProductModels);
-//        newProductRecyclerView.setAdapter(newProductAdapter);
-//        //showNewProducts();
-//
-//        db.collection("Products")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                NewProductModel newProductModel = document.toObject(NewProductModel.class);
-//                                newProductModels.add(newProductModel);
-//                                Log.e("product", newProductModel.getName());
-//                            }
-//                            newProductAdapter.notifyDataSetChanged();
-//                        } else {
-//
-//                        }
-//                    }
-//                });
-//
-//        // popular product
-//        popularRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-//        popularProductModels = new ArrayList<>();
-//        popularProductAdapter = new PopularProductAdapter(getContext(), popularProductModels);
-//        newProductRecyclerView.setAdapter(popularProductAdapter);
-//
-//        db.collection("Products")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                PopularProductModel popularProductModel = document.toObject(PopularProductModel.class);
-//                                popularProductModels.add(popularProductModel);
-//                            }
-//                        } else {
-//
-//                        }
-//                    }
-//                });
-
-        return view;
     }
 
-    public void showAll() {
+    public void showAllProduct() {
         catShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -296,7 +203,7 @@ public class HomeFragment extends Fragment {
         popularRecyclerView.setLayoutManager(gridLayoutManager);
         popularProductModels = new ArrayList<>();
         popularProductAdapter = new PopularProductAdapter(getContext(), popularProductModels);
-        newProductRecyclerView.setAdapter(popularProductAdapter);
+        popularRecyclerView.setAdapter(popularProductAdapter);
 
         db.collection("Products")
                 .get()
@@ -309,8 +216,6 @@ public class HomeFragment extends Fragment {
                                 popularProductModels.add(popularProductModel);
                                 popularProductAdapter.notifyDataSetChanged();
                             }
-                        } else {
-
                         }
                     }
                 });

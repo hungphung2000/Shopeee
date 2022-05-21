@@ -1,13 +1,13 @@
 package com.example.shopeee.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shopeee.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,20 +23,23 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // anh xa
+        init();
+    }
 
+    public void init() {
         name = findViewById(R.id.name);
         password = findViewById(R.id.password1);
         email = findViewById(R.id.email1);
 
         auth = FirebaseAuth.getInstance();
-
     }
-
+    // onClick chuyển sang registration
     public void SignUp(View view) {
         Intent intent = new Intent(LoginActivity.this, Registration.class);
         startActivity(intent);
     }
-
+    // onClick xác nhận đăng nhập
     public void SignIn(View view) {
         String userEmail = email.getText().toString();
         String userPass = password.getText().toString();

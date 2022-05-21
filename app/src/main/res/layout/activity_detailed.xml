@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".activities.DetailedActivity">
 
+
+
     <ImageView
         android:id="@+id/detailed_img"
         android:layout_width="match_parent"
@@ -16,6 +18,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/detailed_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        app:title="Product Detailed"
+        android:layout_height="wrap_content"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"

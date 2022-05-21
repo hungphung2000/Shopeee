@@ -57,6 +57,7 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
+        android:inputType="numberPassword"
         android:drawableLeft="@drawable/ic_baseline_vpn_key_24"
         android:drawablePadding="10dp"
         android:id="@+id/password1"

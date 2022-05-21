@@ -17,7 +17,6 @@ public class SlideAdapter extends PagerAdapter {
     Context context;
     LayoutInflater layoutInflater;
 
-
     int[] imageArray = {
             R.drawable.onboardscreen1,
             R.drawable.onboardscreen2,
@@ -41,8 +40,6 @@ public class SlideAdapter extends PagerAdapter {
     }
 
     @Override
-
-
     public int getCount() {
         return headingArray.length;
     }

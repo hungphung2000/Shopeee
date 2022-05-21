@@ -1,8 +1,5 @@
 package com.example.shopeee.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +9,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.shopeee.R;
 import com.example.shopeee.adapter.SlideAdapter;
@@ -79,7 +79,5 @@ public class OnBoardingActivity extends AppCompatActivity {
         });
 
     }
-
-
 
 }
